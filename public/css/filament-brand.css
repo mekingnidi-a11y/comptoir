@@ -194,6 +194,14 @@
     color: #4f46e5 !important;
 }
 
+.fi-sidebar-item-btn[href*="encaissements"] .fi-sidebar-item-icon {
+    color: #ea580c !important;
+}
+
+.fi-sidebar-item-btn[href*="depenses"] .fi-sidebar-item-icon {
+    color: #e11d48 !important;
+}
+
 .fi-sidebar-item-btn[href*="reporting"] .fi-sidebar-item-icon {
     color: #65a30d !important;
 }
@@ -366,6 +374,8 @@
 .bc-nav-footer-link[href$="/admin"] .fi-icon,
 .bc-nav-footer-link[href$="/admin/"] .fi-icon { color: #0d9488; }
 .bc-nav-footer-link[href*="journees"] .fi-icon { color: #4f46e5; }
+.bc-nav-footer-link[href*="encaissements"] .fi-icon { color: #ea580c; }
+.bc-nav-footer-link[href*="depenses"] .fi-icon { color: #e11d48; }
 .bc-nav-footer-link[href*="reporting"] .fi-icon { color: #65a30d; }
 .bc-nav-footer-link[href*="gerants"] .fi-icon { color: #7c3aed; }
 .bc-nav-footer-link[href*="users"] .fi-icon { color: #db2777; }

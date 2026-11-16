@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -79,6 +80,29 @@ class Journee extends Model
     public function estOuverte(): bool
     {
         return $this->statut === self::STATUT_OUVERTE;
+    }
+
+    public function libelle(): string
+    {
+        $date = $this->date?->format('d/m/Y') ?? '—';
+        $gerant = $this->gerant?->nom ?? 'Gérant';
+
+        return $date.' — '.$gerant;
+    }
+
+    public static function queryOuvertes(?User $user = null): Builder
+    {
+        $query = static::query()
+            ->where('statut', self::STATUT_OUVERTE)
+            ->with('gerant')
+            ->orderByDesc('date');
+
+        $user ??= auth()->user();
+        if ($user instanceof User && $user->isGerant()) {
+            $query->where('gerant_id', $user->gerant_id);
+        }
+
+        return $query;
     }
 
     public function recalculer(): void

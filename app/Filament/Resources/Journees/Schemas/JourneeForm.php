@@ -2,11 +2,9 @@
 
 namespace App\Filament\Resources\Journees\Schemas;
 
-use App\Models\Article;
 use App\Models\Gerant;
 use App\Models\Journee;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -26,8 +24,9 @@ class JourneeForm
 
         return $schema
             ->components([
-                Section::make('Journée')
+                Section::make('Paramètres de la journée')
                     ->icon(Heroicon::OutlinedCalendarDays)->iconColor('amber')
+                    ->description('Créez la journée, choisissez le gérant, puis clôturez-la. Les ventes et dépenses se saisissent dans Mouvement.')
                     ->schema([
                         DatePicker::make('date')
                             ->label('Date')
@@ -67,7 +66,7 @@ class JourneeForm
                             ->suffix('%')
                             ->required()
                             ->prefixIcon(Heroicon::OutlinedChartBar)->prefixIconColor('lime')
-                            ->helperText('Figé pour cette journée, même si le % du gérant change plus tard.'),
+                            ->helperText('Salaire du gérant = recette × ce pourcentage, figé pour cette journée.'),
                         TextInput::make('fond_caisse')
                             ->label('Fond de caisse')
                             ->numeric()
@@ -84,98 +83,6 @@ class JourneeForm
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
-                Section::make('Encaissements')
-                    ->icon(Heroicon::OutlinedBanknotes)->iconColor('orange')
-                    ->description('Choisissez un article du catalogue, indiquez la quantité vendue.')
-                    ->schema([
-                        Repeater::make('encaissements')
-                            ->relationship()
-                            ->label('')
-                            ->schema([
-                                Select::make('article_id')
-                                    ->label('Article')
-                                    ->relationship(
-                                        'article',
-                                        'nom',
-                                        fn ($query) => $query->where('actif', true)->orderBy('nom'),
-                                    )
-                                    ->searchable()
-                                    ->preload()
-                                    ->required()
-                                    ->live()
-                                    ->prefixIcon(Heroicon::OutlinedCake)->prefixIconColor('pink')
-                                    ->afterStateUpdated(function ($state, Set $set): void {
-                                        $article = Article::query()->find($state);
-                                        if ($article) {
-                                            $set('prix_unitaire', $article->prix_unitaire);
-                                        }
-                                    })
-                                    ->columnSpan(2),
-                                TextInput::make('quantite')
-                                    ->label('Quantité')
-                                    ->numeric()
-                                    ->required()
-                                    ->default(1)
-                                    ->minValue(0)
-                                    ->step(0.5)
-                                    ->prefixIcon(Heroicon::OutlinedHashtag)->prefixIconColor('slate'),
-                                TextInput::make('prix_unitaire')
-                                    ->label('Prix unit.')
-                                    ->numeric()
-                                    ->required()
-                                    ->minValue(0)
-                                    ->suffix('F')
-                                    ->prefixIcon(Heroicon::OutlinedBanknotes)->prefixIconColor('orange'),
-                                TextInput::make('note')
-                                    ->label('Note')
-                                    ->maxLength(255)
-                                    ->columnSpan(2),
-                            ])
-                            ->columns(6)
-                            ->defaultItems(1)
-                            ->addActionLabel('Ajouter un encaissement')
-                            ->cloneable()
-                            ->reorderable(false)
-                            ->columnSpanFull(),
-                    ]),
-                Section::make('Dépenses du jour')
-                    ->icon(Heroicon::OutlinedArrowTrendingDown)->iconColor('rose')
-                    ->schema([
-                        Repeater::make('depenses')
-                            ->relationship()
-                            ->label('')
-                            ->schema([
-                                Select::make('categorie_depense_id')
-                                    ->label('Motif')
-                                    ->relationship(
-                                        'categorie',
-                                        'nom',
-                                        fn ($query) => $query->where('actif', true)->orderBy('nom'),
-                                    )
-                                    ->searchable()
-                                    ->preload()
-                                    ->nullable()
-                                    ->prefixIcon(Heroicon::OutlinedTag)->prefixIconColor('slate'),
-                                TextInput::make('libelle')
-                                    ->label('Libellé')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->columnSpan(2)
-                                    ->prefixIcon(Heroicon::OutlinedClipboardDocumentList)->prefixIconColor('indigo'),
-                                TextInput::make('montant')
-                                    ->label('Montant')
-                                    ->numeric()
-                                    ->required()
-                                    ->minValue(0)
-                                    ->suffix('F CFA')
-                                    ->prefixIcon(Heroicon::OutlinedBanknotes)->prefixIconColor('orange'),
-                            ])
-                            ->columns(4)
-                            ->defaultItems(0)
-                            ->addActionLabel('Ajouter une dépense')
-                            ->reorderable(false)
-                            ->columnSpanFull(),
-                    ]),
             ]);
     }
 }
