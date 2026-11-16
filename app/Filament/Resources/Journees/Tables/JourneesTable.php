@@ -2,14 +2,17 @@
 
 namespace App\Filament\Resources\Journees\Tables;
 
+use App\Filament\Resources\Journees\JourneeResource;
 use App\Models\Journee;
+use App\Support\FilamentBrand;
+use App\Support\FilamentCards;
 use App\Support\Money;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -18,25 +21,52 @@ class JourneesTable
 {
     public static function configure(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('date')->label('Date')->date('d/m/Y')->sortable(),
-                TextColumn::make('gerant.nom')->label('Gérant')->searchable()->sortable(),
-                TextColumn::make('statut')
-                    ->label('État')
-                    ->badge()
-                    ->formatStateUsing(fn ($state) => $state === Journee::STATUT_CLOTUREE ? 'Clôturée' : 'Ouverte')
-                    ->color(fn ($state) => $state === Journee::STATUT_CLOTUREE ? 'success' : 'warning'),
-                TextColumn::make('recette')->label('Recette')->formatStateUsing(fn ($state) => Money::format($state))->sortable(),
-                TextColumn::make('total_depenses')->label('Dépenses')->formatStateUsing(fn ($state) => Money::format($state)),
-                TextColumn::make('commission')->label('Salaire gérant')->formatStateUsing(fn ($state) => Money::format($state)),
-                TextColumn::make('benefice')
-                    ->label('Bénéfice')
-                    ->formatStateUsing(fn ($state) => Money::format($state))
-                    ->color(fn ($state) => $state >= 0 ? 'success' : 'danger')
-                    ->sortable(),
-                IconColumn::make('commission_versee')->label('Payé')->boolean(),
-            ])
+        return FilamentCards::apply($table)
+            ->columns(FilamentCards::columns([
+                FilamentBrand::line(
+                    TextColumn::make('date')->date('d/m/Y')->weight(FontWeight::Bold)->sortable(),
+                    'Date',
+                    Heroicon::OutlinedCalendarDays,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('gerant.nom')->searchable()->sortable(),
+                    'Gérant',
+                    Heroicon::OutlinedUser,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('statut')
+                        ->badge()
+                        ->formatStateUsing(fn ($state) => $state === Journee::STATUT_CLOTUREE ? 'Clôturée' : 'Ouverte')
+                        ->color(fn ($state) => $state === Journee::STATUT_CLOTUREE ? 'success' : 'warning'),
+                    'État',
+                    Heroicon::OutlinedShieldCheck,
+                ),
+            ], [
+                FilamentBrand::line(
+                    TextColumn::make('recette')->formatStateUsing(fn ($state) => Money::format($state))->sortable(),
+                    'Recette',
+                    Heroicon::OutlinedBanknotes,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('total_depenses')->formatStateUsing(fn ($state) => Money::format($state)),
+                    'Dépenses',
+                    Heroicon::OutlinedArrowTrendingDown,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('commission')->formatStateUsing(fn ($state) => Money::format($state)),
+                    'Salaire',
+                    Heroicon::OutlinedUser,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('benefice')
+                        ->formatStateUsing(fn ($state) => Money::format($state))
+                        ->color(fn ($state) => $state >= 0 ? 'success' : 'danger')
+                        ->sortable(),
+                    'Bénéfice',
+                    Heroicon::OutlinedChartBar,
+                ),
+                FilamentBrand::booleanLine('commission_versee', 'Payé', Heroicon::OutlinedShieldCheck),
+            ]))
             ->defaultSort('date', 'desc')
             ->filters([
                 SelectFilter::make('statut')
@@ -50,12 +80,13 @@ class JourneesTable
                     ->visible(fn () => auth()->user()?->isProprietaire()),
             ])
             ->recordActions([
-                ViewAction::make()->iconButton(),
+                FilamentCards::viewAction(JourneeResource::class)
+                    ->modalHeading(fn (Journee $record): string => 'Journée '.$record->date?->format('d/m/Y').' — '.($record->gerant?->nom ?? '')),
                 EditAction::make()->iconButton()
                     ->visible(fn (Journee $record) => $record->estOuverte() || auth()->user()?->isProprietaire()),
                 Action::make('cloturer')
                     ->iconButton()
-                    ->icon('heroicon-o-lock-closed')
+                    ->icon(Heroicon::OutlinedLockClosed)
                     ->color('success')
                     ->requiresConfirmation()
                     ->modalHeading('Clôturer la journée ?')

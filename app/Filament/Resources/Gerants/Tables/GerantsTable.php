@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\Gerants\Tables;
 
+use App\Filament\Resources\Gerants\GerantResource;
+use App\Support\FilamentBrand;
+use App\Support\FilamentCards;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -12,16 +16,34 @@ class GerantsTable
 {
     public static function configure(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('nom')->label('Nom')->searchable()->sortable()->weight('bold'),
-                TextColumn::make('telephone')->label('Téléphone')->searchable(),
-                TextColumn::make('pourcentage')->label('%')->suffix(' %')->sortable(),
-                TextColumn::make('user.email')->label('Compte')->placeholder('—'),
-                IconColumn::make('actif')->label('Actif')->boolean(),
-            ])
+        return FilamentCards::apply($table)
+            ->columns(FilamentCards::columns([
+                FilamentBrand::line(
+                    TextColumn::make('nom')->searchable()->sortable()->weight(FontWeight::Bold),
+                    'Nom',
+                    Heroicon::OutlinedUser,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('telephone')->searchable(),
+                    'Téléphone',
+                    Heroicon::OutlinedPhone,
+                ),
+            ], [
+                FilamentBrand::line(
+                    TextColumn::make('pourcentage')->suffix(' %')->sortable(),
+                    '%',
+                    Heroicon::OutlinedChartBar,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('user.email')->placeholder('—'),
+                    'Compte',
+                    Heroicon::OutlinedEnvelope,
+                ),
+                FilamentBrand::booleanLine('actif', 'Actif', Heroicon::OutlinedShieldCheck),
+            ]))
             ->defaultSort('nom')
             ->recordActions([
+                FilamentCards::viewAction(GerantResource::class),
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),
             ]);

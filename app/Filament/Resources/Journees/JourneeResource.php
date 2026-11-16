@@ -51,6 +51,7 @@ class JourneeResource extends Resource
     {
         return $schema->components([
             Section::make('État de la journée')
+                ->icon(Heroicon::OutlinedClipboardDocumentList)->iconColor('indigo')
                 ->columns(3)
                 ->schema([
                     TextEntry::make('date')->label('Date')->date('d/m/Y'),
@@ -66,7 +67,7 @@ class JourneeResource extends Resource
                     TextEntry::make('commission_versee')->label('Salaire versé')->boolean(),
                     TextEntry::make('notes')->label('Notes')->columnSpanFull(),
                 ]),
-            Section::make('Encaissements')->schema([
+            Section::make('Encaissements')->icon(Heroicon::OutlinedBanknotes)->iconColor('orange')->schema([
                 RepeatableEntry::make('encaissements')->label('')->schema([
                     TextEntry::make('article.nom')->label('Article'),
                     TextEntry::make('quantite')->label('Qté'),
@@ -74,7 +75,7 @@ class JourneeResource extends Resource
                     TextEntry::make('montant')->label('Montant')->formatStateUsing(fn ($state) => Money::format($state)),
                 ])->columns(4),
             ]),
-            Section::make('Dépenses')->schema([
+            Section::make('Dépenses')->icon(Heroicon::OutlinedArrowTrendingDown)->iconColor('rose')->schema([
                 RepeatableEntry::make('depenses')->label('')->schema([
                     TextEntry::make('categorie.nom')->label('Motif')->placeholder('—'),
                     TextEntry::make('libelle')->label('Libellé'),

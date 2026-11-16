@@ -10,6 +10,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -28,18 +30,46 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('La Boutique')
             ->colors([
-                'primary' => Color::Amber,
-                'danger' => Color::Rose,
-                'success' => Color::Emerald,
-                'info' => Color::Sky,
-                'warning' => Color::Orange,
+                'primary' => Color::Teal,
+                'violet' => Color::Violet,
+                'purple' => Color::Purple,
+                'pink' => Color::Pink,
+                'rose' => Color::Rose,
+                'sky' => Color::Sky,
+                'blue' => Color::Blue,
+                'indigo' => Color::Indigo,
+                'emerald' => Color::Emerald,
+                'cyan' => Color::Cyan,
+                'amber' => Color::Amber,
+                'orange' => Color::Orange,
+                'fuchsia' => Color::Fuchsia,
+                'lime' => Color::Lime,
+                'slate' => Color::Slate,
             ])
+            ->resourceCreatePageRedirect('index')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->spa()
+            ->spaUrlExceptions([
+                '*/admin/login',
+                '*/login',
+            ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): View => view('filament.hooks.brand-styles'),
+            )
+            ->renderHook(
+                PanelsRenderHook::PAGE_HEADER_HEADING_BEFORE,
+                fn (): View => view('filament.hooks.page-heading-icon'),
+            )
+            ->renderHook(
+                PanelsRenderHook::FOOTER,
+                fn (): View => view('filament.hooks.nav-footer'),
+            )
             ->widgets([])
             ->middleware([
                 EncryptCookies::class,

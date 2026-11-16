@@ -27,7 +27,7 @@ class JourneeForm
         return $schema
             ->components([
                 Section::make('Journée')
-                    ->icon(Heroicon::OutlinedCalendarDays)
+                    ->icon(Heroicon::OutlinedCalendarDays)->iconColor('amber')
                     ->schema([
                         DatePicker::make('date')
                             ->label('Date')
@@ -35,6 +35,7 @@ class JourneeForm
                             ->displayFormat('d/m/Y')
                             ->default(now())
                             ->required()
+                            ->prefixIcon(Heroicon::OutlinedCalendarDays)->prefixIconColor('amber')
                             ->unique(
                                 table: Journee::class,
                                 column: 'date',
@@ -52,6 +53,7 @@ class JourneeForm
                             ->preload()
                             ->required()
                             ->live()
+                            ->prefixIcon(Heroicon::OutlinedUser)->prefixIconColor('violet')
                             ->default(fn () => auth()->user()?->gerant_id)
                             ->disabled($estGerant)
                             ->dehydrated()
@@ -64,13 +66,15 @@ class JourneeForm
                             ->numeric()
                             ->suffix('%')
                             ->required()
+                            ->prefixIcon(Heroicon::OutlinedChartBar)->prefixIconColor('lime')
                             ->helperText('Figé pour cette journée, même si le % du gérant change plus tard.'),
                         TextInput::make('fond_caisse')
                             ->label('Fond de caisse')
                             ->numeric()
                             ->default(0)
                             ->minValue(0)
-                            ->suffix('F CFA'),
+                            ->suffix('F CFA')
+                            ->prefixIcon(Heroicon::OutlinedBanknotes)->prefixIconColor('orange'),
                         Toggle::make('commission_versee')
                             ->label('Salaire du gérant déjà versé')
                             ->default(false),
@@ -81,7 +85,7 @@ class JourneeForm
                     ])
                     ->columns(2),
                 Section::make('Encaissements')
-                    ->icon(Heroicon::OutlinedBanknotes)
+                    ->icon(Heroicon::OutlinedBanknotes)->iconColor('orange')
                     ->description('Choisissez un article du catalogue, indiquez la quantité vendue.')
                     ->schema([
                         Repeater::make('encaissements')
@@ -99,6 +103,7 @@ class JourneeForm
                                     ->preload()
                                     ->required()
                                     ->live()
+                                    ->prefixIcon(Heroicon::OutlinedCake)->prefixIconColor('pink')
                                     ->afterStateUpdated(function ($state, Set $set): void {
                                         $article = Article::query()->find($state);
                                         if ($article) {
@@ -112,13 +117,15 @@ class JourneeForm
                                     ->required()
                                     ->default(1)
                                     ->minValue(0)
-                                    ->step(0.5),
+                                    ->step(0.5)
+                                    ->prefixIcon(Heroicon::OutlinedHashtag)->prefixIconColor('slate'),
                                 TextInput::make('prix_unitaire')
                                     ->label('Prix unit.')
                                     ->numeric()
                                     ->required()
                                     ->minValue(0)
-                                    ->suffix('F'),
+                                    ->suffix('F')
+                                    ->prefixIcon(Heroicon::OutlinedBanknotes)->prefixIconColor('orange'),
                                 TextInput::make('note')
                                     ->label('Note')
                                     ->maxLength(255)
@@ -132,7 +139,7 @@ class JourneeForm
                             ->columnSpanFull(),
                     ]),
                 Section::make('Dépenses du jour')
-                    ->icon(Heroicon::OutlinedArrowTrendingDown)
+                    ->icon(Heroicon::OutlinedArrowTrendingDown)->iconColor('rose')
                     ->schema([
                         Repeater::make('depenses')
                             ->relationship()
@@ -147,18 +154,21 @@ class JourneeForm
                                     )
                                     ->searchable()
                                     ->preload()
-                                    ->nullable(),
+                                    ->nullable()
+                                    ->prefixIcon(Heroicon::OutlinedTag)->prefixIconColor('slate'),
                                 TextInput::make('libelle')
                                     ->label('Libellé')
                                     ->required()
                                     ->maxLength(255)
-                                    ->columnSpan(2),
+                                    ->columnSpan(2)
+                                    ->prefixIcon(Heroicon::OutlinedClipboardDocumentList)->prefixIconColor('indigo'),
                                 TextInput::make('montant')
                                     ->label('Montant')
                                     ->numeric()
                                     ->required()
                                     ->minValue(0)
-                                    ->suffix('F CFA'),
+                                    ->suffix('F CFA')
+                                    ->prefixIcon(Heroicon::OutlinedBanknotes)->prefixIconColor('orange'),
                             ])
                             ->columns(4)
                             ->defaultItems(0)

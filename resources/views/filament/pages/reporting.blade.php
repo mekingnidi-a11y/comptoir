@@ -2,16 +2,16 @@
     <x-filament::section class="mb-6">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
             <label class="block">
-                <span class="text-sm font-medium">Du</span>
+                <span class="text-sm font-medium">{!! \App\Support\FilamentBrand::columnLabel('Du', \Filament\Support\Icons\Heroicon::OutlinedCalendarDays) !!}</span>
                 <input type="date" wire:model.live="du" class="mt-1 w-full rounded-lg border-gray-300 dark:bg-gray-800 dark:border-gray-700" />
             </label>
             <label class="block">
-                <span class="text-sm font-medium">Au</span>
+                <span class="text-sm font-medium">{!! \App\Support\FilamentBrand::columnLabel('Au', \Filament\Support\Icons\Heroicon::OutlinedCalendarDays) !!}</span>
                 <input type="date" wire:model.live="au" class="mt-1 w-full rounded-lg border-gray-300 dark:bg-gray-800 dark:border-gray-700" />
             </label>
             @if (auth()->user()?->isProprietaire())
                 <label class="block">
-                    <span class="text-sm font-medium">Gérant</span>
+                    <span class="text-sm font-medium">{!! \App\Support\FilamentBrand::columnLabel('Gérant', \Filament\Support\Icons\Heroicon::OutlinedUser) !!}</span>
                     <select wire:model.live="gerant_id" class="mt-1 w-full rounded-lg border-gray-300 dark:bg-gray-800 dark:border-gray-700">
                         <option value="">Tous</option>
                         @foreach ($this->gerants() as $gerant)
@@ -26,29 +26,29 @@
     @php($t = $this->totaux())
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5 mb-6">
         <x-filament::section>
-            <div class="text-sm text-gray-500">Journées</div>
+            <div class="text-sm text-gray-500">{!! \App\Support\FilamentBrand::columnLabel('Journées', \Filament\Support\Icons\Heroicon::OutlinedClipboardDocumentList) !!}</div>
             <div class="text-2xl font-semibold">{{ $t['n'] }}</div>
         </x-filament::section>
         <x-filament::section>
-            <div class="text-sm text-gray-500">Recette</div>
+            <div class="text-sm text-gray-500">{!! \App\Support\FilamentBrand::columnLabel('Recette', \Filament\Support\Icons\Heroicon::OutlinedBanknotes) !!}</div>
             <div class="text-2xl font-semibold">{{ $this->money($t['recette']) }}</div>
         </x-filament::section>
         <x-filament::section>
-            <div class="text-sm text-gray-500">Dépenses</div>
+            <div class="text-sm text-gray-500">{!! \App\Support\FilamentBrand::columnLabel('Dépenses', \Filament\Support\Icons\Heroicon::OutlinedArrowTrendingDown) !!}</div>
             <div class="text-2xl font-semibold">{{ $this->money($t['depenses']) }}</div>
         </x-filament::section>
         <x-filament::section>
-            <div class="text-sm text-gray-500">Salaires gérants</div>
+            <div class="text-sm text-gray-500">{!! \App\Support\FilamentBrand::columnLabel('Salaires gérants', \Filament\Support\Icons\Heroicon::OutlinedUserGroup) !!}</div>
             <div class="text-2xl font-semibold">{{ $this->money($t['commission']) }}</div>
         </x-filament::section>
         <x-filament::section>
-            <div class="text-sm text-gray-500">Bénéfice</div>
+            <div class="text-sm text-gray-500">{!! \App\Support\FilamentBrand::columnLabel('Bénéfice', \Filament\Support\Icons\Heroicon::OutlinedChartBar) !!}</div>
             <div class="text-2xl font-semibold {{ $t['benefice'] >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">{{ $this->money($t['benefice']) }}</div>
         </x-filament::section>
     </div>
 
     <div class="grid grid-cols-1 gap-6 xl:grid-cols-2 mb-6">
-        <x-filament::section heading="Par gérant">
+        <x-filament::section :heading="\App\Support\FilamentBrand::heading('Par gérant', \Filament\Support\Icons\Heroicon::OutlinedUserGroup)">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
@@ -77,7 +77,7 @@
             </div>
         </x-filament::section>
 
-        <x-filament::section heading="Articles vendus">
+        <x-filament::section :heading="\App\Support\FilamentBrand::heading('Articles vendus', \Filament\Support\Icons\Heroicon::OutlinedCake)">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
@@ -103,7 +103,7 @@
         </x-filament::section>
     </div>
 
-    <x-filament::section heading="Détail des journées (60 dernières de la période)">
+    <x-filament::section :heading="\App\Support\FilamentBrand::heading('Détail des journées', \Filament\Support\Icons\Heroicon::OutlinedClipboardDocumentList)">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>

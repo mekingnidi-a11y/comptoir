@@ -6,6 +6,8 @@ use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
 use App\Models\User;
+use App\Support\FilamentBrand;
+use App\Support\FilamentCards;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -13,9 +15,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -48,46 +51,80 @@ class UserResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('name')->label('Nom')->required()->maxLength(255),
-            TextInput::make('email')->label('E-mail')->email()->required()->unique(ignoreRecord: true),
-            TextInput::make('password')
-                ->label('Mot de passe')
-                ->password()
-                ->revealable()
-                ->required(fn (string $operation) => $operation === 'create')
-                ->dehydrated(fn ($state) => filled($state)),
-            Select::make('role')
-                ->label('Rôle')
-                ->options([
-                    User::ROLE_PROPRIETAIRE => 'Propriétaire',
-                    User::ROLE_GERANT => 'Gérant',
+            Section::make('Utilisateur')
+                ->icon(Heroicon::OutlinedUsers)->iconColor('pink')
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Nom')
+                        ->required()
+                        ->maxLength(255)
+                        ->prefixIcon(Heroicon::OutlinedUser)->prefixIconColor('violet'),
+                    TextInput::make('email')
+                        ->label('E-mail')
+                        ->email()
+                        ->required()
+                        ->unique(ignoreRecord: true)
+                        ->prefixIcon(Heroicon::OutlinedEnvelope)->prefixIconColor('sky'),
+                    TextInput::make('password')
+                        ->label('Mot de passe')
+                        ->password()
+                        ->revealable()
+                        ->required(fn (string $operation) => $operation === 'create')
+                        ->dehydrated(fn ($state) => filled($state))
+                        ->prefixIcon(Heroicon::OutlinedLockClosed)->prefixIconColor('gray'),
+                    Select::make('role')
+                        ->label('Rôle')
+                        ->options([
+                            User::ROLE_PROPRIETAIRE => 'Propriétaire',
+                            User::ROLE_GERANT => 'Gérant',
+                        ])
+                        ->required()
+                        ->native(false)
+                        ->prefixIcon(Heroicon::OutlinedShieldCheck)->prefixIconColor('purple'),
+                    Select::make('gerant_id')
+                        ->label('Gérant lié')
+                        ->relationship('gerant', 'nom')
+                        ->searchable()
+                        ->preload()
+                        ->nullable()
+                        ->prefixIcon(Heroicon::OutlinedUserGroup)->prefixIconColor('pink'),
+                    Toggle::make('actif')->label('Actif')->default(true),
                 ])
-                ->required()
-                ->native(false),
-            Select::make('gerant_id')
-                ->label('Gérant lié')
-                ->relationship('gerant', 'nom')
-                ->searchable()
-                ->preload()
-                ->nullable(),
-            Toggle::make('actif')->label('Actif')->default(true),
+                ->columns(2),
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('name')->label('Nom')->searchable(),
-                TextColumn::make('email')->label('E-mail')->searchable(),
-                TextColumn::make('role')
-                    ->label('Rôle')
-                    ->badge()
-                    ->formatStateUsing(fn ($state) => $state === User::ROLE_PROPRIETAIRE ? 'Propriétaire' : 'Gérant'),
-                TextColumn::make('gerant.nom')->label('Gérant')->placeholder('—'),
-                IconColumn::make('actif')->label('Actif')->boolean(),
-            ])
+        return FilamentCards::apply($table)
+            ->columns(FilamentCards::columns([
+                FilamentBrand::line(
+                    TextColumn::make('name')->searchable()->weight(FontWeight::Bold),
+                    'Nom',
+                    Heroicon::OutlinedUser,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('email')->searchable(),
+                    'E-mail',
+                    Heroicon::OutlinedEnvelope,
+                ),
+            ], [
+                FilamentBrand::line(
+                    TextColumn::make('role')
+                        ->badge()
+                        ->formatStateUsing(fn ($state) => $state === User::ROLE_PROPRIETAIRE ? 'Propriétaire' : 'Gérant'),
+                    'Rôle',
+                    Heroicon::OutlinedShieldCheck,
+                ),
+                FilamentBrand::line(
+                    TextColumn::make('gerant.nom')->placeholder('—'),
+                    'Gérant',
+                    Heroicon::OutlinedUserGroup,
+                ),
+                FilamentBrand::booleanLine('actif', 'Actif', Heroicon::OutlinedShieldCheck),
+            ]))
             ->recordActions([
+                FilamentCards::viewAction(self::class),
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),
             ]);

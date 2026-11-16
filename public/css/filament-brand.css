@@ -1,0 +1,384 @@
+/* Charte admin reprise de Locatif — cartes, typo compacte, icônes, footer */
+:root {
+    --bc-teal-500: #14b8a6;
+    --bc-teal-600: #0d9488;
+    --bc-teal-700: #0f766e;
+    --bc-teal-800: #115e59;
+}
+
+.fi-body,
+.fi-main,
+.fi-modal,
+.fi-fo-field,
+.fi-sc,
+.fi-sidebar-item-label {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.35;
+}
+
+.fi-header-heading {
+    font-size: 1.15rem !important;
+    font-weight: 500 !important;
+}
+
+.fi-section-header-heading {
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
+.fi-fo-field-label-content,
+.fi-fo-field-label {
+    font-size: 0.75rem !important;
+    font-weight: 400 !important;
+}
+
+.fi-input,
+.fi-select,
+.fi-textarea,
+.fi-input-wrp input,
+.fi-input-wrp select,
+.fi-input-wrp textarea {
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.fi-sc.fi-sc-has-gap,
+.fi-sc-form,
+.fi-flex {
+    gap: 0.55rem !important;
+}
+
+.fi-fo-field,
+.fi-fo-field-label-col,
+.fi-fo-field-content-col {
+    gap: 0.2rem !important;
+    row-gap: 0.2rem !important;
+}
+
+.fi-section:not(.fi-section-not-contained):not(.fi-divided) > .fi-section-content-ctn > .fi-section-content {
+    padding: 0.7rem 0.85rem !important;
+}
+
+.fi-section-header {
+    padding: 0.55rem 0.85rem !important;
+}
+
+.fi-fo-field-wrp-helper-text,
+.fi-fo-field-wrp-hint-text {
+    font-size: 0.7rem !important;
+    margin-top: 0.1rem !important;
+}
+
+.fi-logo,
+.fi-sidebar-header .fi-logo {
+    color: var(--bc-teal-800);
+}
+
+.dark .fi-logo,
+.dark .fi-sidebar-header .fi-logo {
+    color: #5eead4;
+}
+
+.fi-header > div:first-child {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.35rem;
+}
+
+.fi-header .fi-breadcrumbs {
+    grid-column: 1 / -1;
+}
+
+.fi-page-heading-icon {
+    grid-column: 1;
+    width: 1.85rem;
+    height: 1.85rem;
+}
+
+.fi-header-heading {
+    grid-column: 2;
+    color: var(--bc-teal-800) !important;
+}
+
+.fi-header-subheading,
+.fi-section-header-heading,
+.fi-section-header-description,
+.fi-ta-header-heading,
+.fi-ta-header-description {
+    color: var(--bc-teal-700) !important;
+}
+
+.fi-header-subheading {
+    grid-column: 1 / -1;
+}
+
+.fi-ta-header-cell,
+.fi-ta-header-cell-label,
+.fi-ta-header-cell-sort-btn {
+    color: var(--bc-teal-800) !important;
+}
+
+.bc-screen-heading,
+.bc-col-heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.bc-heading-icon {
+    flex-shrink: 0;
+}
+
+.bc-icon-violet { color: #7c3aed !important; }
+.bc-icon-purple { color: #9333ea !important; }
+.bc-icon-pink { color: #db2777 !important; }
+.bc-icon-rose { color: #e11d48 !important; }
+.bc-icon-sky { color: #0284c7 !important; }
+.bc-icon-blue { color: #2563eb !important; }
+.bc-icon-indigo { color: #4f46e5 !important; }
+.bc-icon-emerald { color: #059669 !important; }
+.bc-icon-cyan { color: #0891b2 !important; }
+.bc-icon-amber { color: #d97706 !important; }
+.bc-icon-orange { color: #ea580c !important; }
+.bc-icon-fuchsia { color: #c026d3 !important; }
+.bc-icon-lime { color: #65a30d !important; }
+.bc-icon-gray,
+.bc-icon-slate { color: #475569 !important; }
+.bc-icon-primary { color: #0d9488 !important; }
+
+.dark .fi-header-heading,
+.dark .fi-ta-header-cell,
+.dark .fi-ta-header-cell-label,
+.dark .fi-ta-header-cell-sort-btn {
+    color: #99f6e4 !important;
+}
+
+.dark .fi-header-subheading,
+.dark .fi-section-header-heading,
+.dark .fi-section-header-description,
+.dark .fi-ta-header-heading,
+.dark .fi-ta-header-description {
+    color: #5eead4 !important;
+}
+
+.dark .bc-icon-violet { color: #a78bfa !important; }
+.dark .bc-icon-purple { color: #c084fc !important; }
+.dark .bc-icon-pink { color: #f472b6 !important; }
+.dark .bc-icon-rose { color: #fb7185 !important; }
+.dark .bc-icon-sky { color: #38bdf8 !important; }
+.dark .bc-icon-blue { color: #60a5fa !important; }
+.dark .bc-icon-indigo { color: #818cf8 !important; }
+.dark .bc-icon-emerald { color: #34d399 !important; }
+.dark .bc-icon-cyan { color: #22d3ee !important; }
+.dark .bc-icon-amber { color: #fbbf24 !important; }
+.dark .bc-icon-orange { color: #fb923c !important; }
+.dark .bc-icon-fuchsia { color: #e879f9 !important; }
+.dark .bc-icon-lime { color: #a3e635 !important; }
+.dark .bc-icon-gray,
+.dark .bc-icon-slate { color: #94a3b8 !important; }
+.dark .bc-icon-primary { color: #2dd4bf !important; }
+
+.fi-sidebar-item-icon {
+    color: var(--bc-teal-600) !important;
+}
+
+.fi-sidebar-item-btn[href$="/admin"] .fi-sidebar-item-icon,
+.fi-sidebar-item-btn[href$="/admin/"] .fi-sidebar-item-icon {
+    color: #0d9488 !important;
+}
+
+.fi-sidebar-item-btn[href*="journees"] .fi-sidebar-item-icon {
+    color: #4f46e5 !important;
+}
+
+.fi-sidebar-item-btn[href*="reporting"] .fi-sidebar-item-icon {
+    color: #65a30d !important;
+}
+
+.fi-sidebar-item-btn[href*="gerants"] .fi-sidebar-item-icon {
+    color: #7c3aed !important;
+}
+
+.fi-sidebar-item-btn[href*="users"] .fi-sidebar-item-icon {
+    color: #db2777 !important;
+}
+
+.fi-sidebar-item-btn[href*="articles"] .fi-sidebar-item-icon {
+    color: #db2777 !important;
+}
+
+.fi-sidebar-item-btn[href*="categorie-depenses"] .fi-sidebar-item-icon {
+    color: #475569 !important;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon {
+    filter: brightness(1.08);
+}
+
+.fi-ta-content-grid {
+    overflow-x: hidden;
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+}
+
+.fi-ta-content-grid .fi-ta-record {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    word-break: break-word;
+    cursor: pointer;
+}
+
+.fi-ta-content-grid .fi-ta-record-content {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0.4rem 0.5rem !important;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    text-align: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fi-ta-content-grid .fi-ta-record-content-ctn {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 0.25rem !important;
+}
+
+.fi-ta-content-grid .fi-ta-actions {
+    padding: 0 0.4rem 0.4rem !important;
+    gap: 0.25rem !important;
+}
+
+.fi-ta-content-grid .fi-ta-text,
+.fi-ta-content-grid .fi-ta-col {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem !important;
+    font-weight: 400 !important;
+    line-height: 1.15 !important;
+}
+
+.fi-ta-content-grid .fi-ta-text .fi-icon,
+.fi-ta-content-grid .fi-ta-text svg,
+.fi-ta-content-grid .fi-ta-col .fi-icon,
+.fi-ta-content-grid .fi-ta-col svg {
+    flex-shrink: 0;
+    width: 0.9rem !important;
+    height: 0.9rem !important;
+}
+
+.fi-ta-content-grid .fi-ta-record .fi-ta-col,
+.fi-ta-content-grid .fi-ta-record .fi-ta-text {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 1) { background-color: #ecfdf5 !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 2) { background-color: #eff6ff !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 3) { background-color: #fdf4ff !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 4) { background-color: #fff7ed !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 5) { background-color: #fef2f2 !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 6) { background-color: #f0f9ff !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 7) { background-color: #fefce8 !important; }
+.fi-ta-content-grid .fi-ta-record:nth-child(8n + 8) { background-color: #f5f3ff !important; }
+
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 1) { background-color: #064e3b !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 2) { background-color: #1e3a5f !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 3) { background-color: #4a1d5c !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 4) { background-color: #7c2d12 !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 5) { background-color: #7f1d1d !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 6) { background-color: #0c4a6e !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 7) { background-color: #713f12 !important; }
+.dark .fi-ta-content-grid .fi-ta-record:nth-child(8n + 8) { background-color: #3730a3 !important; }
+
+.fi-body:has(.bc-nav-footer) .fi-main,
+.fi-body:has(.bc-nav-footer) .fi-main-ctn {
+    padding-bottom: calc(2.6rem + env(safe-area-inset-bottom, 0px));
+}
+
+.bc-nav-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+    padding: 0.3rem 0.25rem calc(0.3rem + env(safe-area-inset-bottom, 0px));
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid rgb(226, 232, 240);
+    backdrop-filter: blur(8px);
+}
+
+.dark .bc-nav-footer {
+    background: rgba(15, 23, 42, 0.96);
+    border-top-color: rgb(51, 65, 85);
+}
+
+.bc-nav-footer-list {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    gap: clamp(0.05rem, 0.4vw, 0.4rem);
+}
+
+.bc-nav-footer-link {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    max-width: calc(100% / var(--bc-nav-n, 10));
+    padding: 0.2rem 0;
+    border-radius: 0.4rem;
+    color: var(--bc-teal-700);
+}
+
+.bc-nav-footer-link:hover,
+.bc-nav-footer-link.is-active {
+    background: rgba(13, 148, 136, 0.12);
+}
+
+.bc-nav-footer-link .fi-icon,
+.bc-nav-footer-link svg {
+    width: min(1.45rem, calc((100vw - 0.8rem) / var(--bc-nav-n, 10) - 0.45rem)) !important;
+    height: min(1.45rem, calc((100vw - 0.8rem) / var(--bc-nav-n, 10) - 0.45rem)) !important;
+    max-width: 100%;
+    flex-shrink: 1;
+}
+
+.bc-nav-footer-link[href$="/admin"] .fi-icon,
+.bc-nav-footer-link[href$="/admin/"] .fi-icon { color: #0d9488; }
+.bc-nav-footer-link[href*="journees"] .fi-icon { color: #4f46e5; }
+.bc-nav-footer-link[href*="reporting"] .fi-icon { color: #65a30d; }
+.bc-nav-footer-link[href*="gerants"] .fi-icon { color: #7c3aed; }
+.bc-nav-footer-link[href*="users"] .fi-icon { color: #db2777; }
+.bc-nav-footer-link[href*="articles"] .fi-icon { color: #db2777; }
+.bc-nav-footer-link[href*="categorie-depenses"] .fi-icon { color: #475569; }
+
+@media print {
+    .bc-nav-footer {
+        display: none !important;
+    }
+
+    .fi-body:has(.bc-nav-footer) .fi-main,
+    .fi-body:has(.bc-nav-footer) .fi-main-ctn {
+        padding-bottom: 0;
+    }
+}

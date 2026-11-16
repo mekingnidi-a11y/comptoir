@@ -16,16 +16,18 @@ class GerantForm
         return $schema
             ->components([
                 Section::make('Gérant')
-                    ->icon(Heroicon::OutlinedUser)
+                    ->icon(Heroicon::OutlinedUser)->iconColor('violet')
                     ->schema([
                         TextInput::make('nom')
                             ->label('Nom')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->prefixIcon(Heroicon::OutlinedUser)->prefixIconColor('violet'),
                         TextInput::make('telephone')
                             ->label('Téléphone')
                             ->tel()
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->prefixIcon(Heroicon::OutlinedPhone)->prefixIconColor('emerald'),
                         TextInput::make('pourcentage')
                             ->label('Pourcentage sur la recette')
                             ->numeric()
@@ -34,6 +36,7 @@ class GerantForm
                             ->step(0.5)
                             ->suffix('%')
                             ->required()
+                            ->prefixIcon(Heroicon::OutlinedChartBar)->prefixIconColor('lime')
                             ->helperText('Salaire du jour = recette × ce pourcentage. Chaque gérant a le sien.'),
                         Toggle::make('actif')
                             ->label('Actif')
@@ -45,18 +48,20 @@ class GerantForm
                     ])
                     ->columns(2),
                 Section::make('Compte de connexion (optionnel)')
-                    ->icon(Heroicon::OutlinedKey)
+                    ->icon(Heroicon::OutlinedKey)->iconColor('rose')
                     ->description('Le gérant pourra alors saisir lui-même sa journée.')
                     ->schema([
                         TextInput::make('compte_email')
                             ->label('E-mail')
                             ->email()
                             ->maxLength(255)
+                            ->prefixIcon(Heroicon::OutlinedEnvelope)->prefixIconColor('sky')
                             ->default(fn ($record) => $record?->user?->email),
                         TextInput::make('compte_password')
                             ->label('Mot de passe')
                             ->password()
                             ->revealable()
+                            ->prefixIcon(Heroicon::OutlinedLockClosed)->prefixIconColor('gray')
                             ->helperText('Laisser vide pour ne pas changer un compte existant.'),
                     ])
                     ->columns(2),

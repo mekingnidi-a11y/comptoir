@@ -6,15 +6,18 @@ use App\Filament\Resources\CategorieDepenses\Pages\CreateCategorieDepense;
 use App\Filament\Resources\CategorieDepenses\Pages\EditCategorieDepense;
 use App\Filament\Resources\CategorieDepenses\Pages\ListCategorieDepenses;
 use App\Models\CategorieDepense;
+use App\Support\FilamentBrand;
+use App\Support\FilamentCards;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\FontWeight;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -47,19 +50,32 @@ class CategorieDepenseResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('nom')->label('Nom')->required()->maxLength(255),
-            Toggle::make('actif')->label('Actif')->default(true),
+            Section::make('Motif de dépense')
+                ->icon(Heroicon::OutlinedTag)->iconColor('slate')
+                ->schema([
+                    TextInput::make('nom')
+                        ->label('Nom')
+                        ->required()
+                        ->maxLength(255)
+                        ->prefixIcon(Heroicon::OutlinedTag)->prefixIconColor('slate'),
+                    Toggle::make('actif')->label('Actif')->default(true),
+                ]),
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('nom')->label('Nom')->searchable()->sortable(),
-                IconColumn::make('actif')->label('Actif')->boolean(),
-            ])
+        return FilamentCards::apply($table)
+            ->columns(FilamentCards::columns([
+                FilamentBrand::line(
+                    TextColumn::make('nom')->searchable()->sortable()->weight(FontWeight::Bold),
+                    'Nom',
+                    Heroicon::OutlinedTag,
+                ),
+                FilamentBrand::booleanLine('actif', 'Actif', Heroicon::OutlinedShieldCheck),
+            ]))
             ->recordActions([
+                FilamentCards::viewAction(self::class),
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),
             ]);

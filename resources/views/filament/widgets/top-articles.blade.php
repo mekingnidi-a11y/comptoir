@@ -1,5 +1,5 @@
 <x-filament-widgets::widget>
-    <x-filament::section heading="Meilleures ventes du mois">
+    <x-filament::section :heading="\App\Support\FilamentBrand::heading('Meilleures ventes du mois', \Filament\Support\Icons\Heroicon::OutlinedCake)">
         @php($articles = $this->getArticles())
         @if (count($articles) === 0)
             <p class="text-sm text-gray-500">Aucune vente ce mois-ci.</p>
@@ -8,9 +8,9 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="text-left text-gray-500">
-                            <th class="py-2">Article</th>
-                            <th class="py-2">Qté</th>
-                            <th class="py-2 text-right">Recette</th>
+                            <th class="py-2">{!! \App\Support\FilamentBrand::columnLabel('Article', \Filament\Support\Icons\Heroicon::OutlinedCake) !!}</th>
+                            <th class="py-2">{!! \App\Support\FilamentBrand::columnLabel('Qté', \Filament\Support\Icons\Heroicon::OutlinedHashtag) !!}</th>
+                            <th class="py-2 text-right">{!! \App\Support\FilamentBrand::columnLabel('Recette', \Filament\Support\Icons\Heroicon::OutlinedBanknotes) !!}</th>
                         </tr>
                     </thead>
                     <tbody>
