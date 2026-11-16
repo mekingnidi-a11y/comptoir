@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('La Boutique')
+            ->brandName('Mme MEKING')
             ->colors([
                 'primary' => Color::Teal,
                 'violet' => Color::Violet,

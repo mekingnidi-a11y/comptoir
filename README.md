@@ -1,4 +1,4 @@
-# La Boutique
+# Mme MEKING
 
 Application Laravel de gestion commerciale pour un petit commerce (gâteaux, crèmes glacées, etc.).
 
